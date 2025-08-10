@@ -15,8 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Common\Endpoints\" />
-    <Folder Include="Common\Enums\" />
     <Folder Include="Common\Extensions\" />
     <Folder Include="Common\Repositories\" />
     <Folder Include="Common\Services\" />

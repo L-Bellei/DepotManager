@@ -1,0 +1,6 @@
+@Depot.API_HostAddress = http://localhost:5167
+
+GET {{Depot.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

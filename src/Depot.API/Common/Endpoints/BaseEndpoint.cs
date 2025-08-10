@@ -11,7 +11,7 @@ public abstract class BaseEndpoint(INotifier notifier) : ControllerBase
     private readonly INotifier _notifier = notifier;
 
     /// <summary>
-    /// Retorna sucesso (com status customizável) ou erro consolidado das notificações.
+    /// Return success (with customizable status code) or consolidated error with messages for reference.
     /// </summary>
     public IActionResult CustomResponse<T>(T? data = default,
         int successStatusCode = StatusCodes.Status200OK,
@@ -26,9 +26,6 @@ public abstract class BaseEndpoint(INotifier notifier) : ControllerBase
         return StatusCode(successStatusCode, Success(data!));
     }
 
-    /// <summary>
-    /// Converte erros do ModelState em notificações e responde usando CustomResponse.
-    /// </summary>
     protected IActionResult CustomResponseFromModelState(int failStatusCode = StatusCodes.Status400BadRequest)
     {
         if (ModelState.IsValid)
@@ -40,9 +37,6 @@ public abstract class BaseEndpoint(INotifier notifier) : ControllerBase
         return CustomResponse<object?>(null, failStatusCode: failStatusCode);
     }
 
-    /// <summary>
-    /// Helper para 201 Created com location.
-    /// </summary>
     protected IActionResult CreatedResponse<T>(string routeName, object routeValues, T data)
     {
         if (_notifier.HasNotifies())

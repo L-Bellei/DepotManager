@@ -1,5 +1,5 @@
 ﻿using Depot.API.Common.Enums;
-using Depot.API.Common.Interfaces;
+using Depot.API.Common.Notifier;
 using Depot.API.Common.Views;
 using Microsoft.AspNetCore.Mvc;
 

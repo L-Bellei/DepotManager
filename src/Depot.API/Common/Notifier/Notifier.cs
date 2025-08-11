@@ -1,5 +1,4 @@
 ﻿using Depot.API.Common.Enums;
-using Depot.API.Common.Interfaces;
 
 namespace Depot.API.Common.Notifier;
 

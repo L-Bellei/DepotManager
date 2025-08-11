@@ -1,6 +1,6 @@
 ﻿using Depot.API.Common.Enums;
 
-namespace Depot.API.Common.Interfaces;
+namespace Depot.API.Common.Notifier;
 
 public interface INotifier
 {

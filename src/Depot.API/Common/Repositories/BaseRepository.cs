@@ -1,10 +1,10 @@
-﻿using Depot.API.Common.Interfaces.Repositories;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using Depot.API.Common.Interfaces.Repositories;
 
 namespace Depot.API.Common.Repositories;
 
-public abstract class BaseRepository<TContext, TEntity> where TContext : DbContext where TEntity : class, IBaseRepository<TContext, TEntity>
+public abstract class BaseRepository<TContext, TEntity> : IBaseRepository<TContext, TEntity> where TContext : DbContext where TEntity : class
 {
     protected readonly TContext _context;
     protected readonly DbSet<TEntity> _set;
@@ -30,20 +30,13 @@ public abstract class BaseRepository<TContext, TEntity> where TContext : DbConte
     public virtual async Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken ct = default)
         => await Query().AnyAsync(predicate, ct);
 
-    public virtual async Task AddAsync(TEntity entity, CancellationToken ct = default) 
+    public virtual async Task AddAsync(TEntity entity, CancellationToken ct = default)
         => await _set.AddAsync(entity, ct);
 
-    public virtual void AddRange(IEnumerable<TEntity> entities)
-        => _set.AddRange(entities);
-
-    public virtual void Update(TEntity entity)
-        => _set.Update(entity);
-
-    public virtual void Remove(TEntity entity)
-        => _set.Remove(entity);
-
-    public virtual void RemoveRange(IEnumerable<TEntity> entities)
-        => _set.RemoveRange(entities);
+    public virtual void AddRange(IEnumerable<TEntity> entities) => _set.AddRange(entities);
+    public virtual void Update(TEntity entity) => _set.Update(entity);
+    public virtual void Remove(TEntity entity) => _set.Remove(entity);
+    public virtual void RemoveRange(IEnumerable<TEntity> entities) => _set.RemoveRange(entities);
 
     public virtual async Task<int> SaveChangesAsync(CancellationToken ct = default)
         => await _context.SaveChangesAsync(ct);

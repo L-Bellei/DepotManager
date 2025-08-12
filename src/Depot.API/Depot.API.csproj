@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
 		<TargetFramework>net9.0</TargetFramework>
@@ -13,6 +13,7 @@
 		<NoWarn>$(NoWarn);1591</NoWarn>
 	</PropertyGroup>
 	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="15.0.1" />
 		<PackageReference Include="EFCore.NamingConventions" Version="9.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Authorization" Version="9.0.8" />
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.8" />
@@ -33,7 +34,7 @@
 		<Folder Include="Configuration\AutoMapper\" />
 		<Folder Include="Configuration\FluentValidation\" />
 		<Folder Include="Features\Financial\" />
-		<Folder Include="Features\Registrations\" />
+		<Folder Include="Features\Registrations\Endpoints\" />
 		<Folder Include="Features\Stocks\" />
 	</ItemGroup>
 

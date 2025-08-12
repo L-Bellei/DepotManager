@@ -11,22 +11,27 @@ public abstract class BaseEndpoint(INotifier notifier) : ControllerBase
     private readonly INotifier _notifier = notifier;
 
     /// <summary>
-    /// Return success (with customizable status code) or consolidated error with messages for reference.
+    /// Retorna sucesso (com status customizável) ou erro consolidado.
     /// </summary>
-    public IActionResult CustomResponse<T>(T? data = default,
+    protected IActionResult CustomResponse<T>(
+        T? data = default,
         int successStatusCode = StatusCodes.Status200OK,
         int failStatusCode = StatusCodes.Status400BadRequest)
     {
         if (_notifier.HasNotifies())
             return StatusCode(failStatusCode, Fail(_notifier.GetNotifications()));
 
-        if (data is null && successStatusCode == StatusCodes.Status204NoContent)
-            return StatusCode(StatusCodes.Status204NoContent);
+        if (successStatusCode == StatusCodes.Status204NoContent)
+            return NoContent();
 
         return StatusCode(successStatusCode, Success(data!));
     }
 
-    protected IActionResult CustomResponseFromModelState(int failStatusCode = StatusCodes.Status400BadRequest)
+    /// <summary>
+    /// Converte ModelState inválido em notificações e retorna 400.
+    /// </summary>
+    protected IActionResult CustomResponseFromModelState(
+        int failStatusCode = StatusCodes.Status400BadRequest)
     {
         if (ModelState.IsValid)
             return CustomResponse<object?>(null);
@@ -37,16 +42,17 @@ public abstract class BaseEndpoint(INotifier notifier) : ControllerBase
         return CustomResponse<object?>(null, failStatusCode: failStatusCode);
     }
 
+    /// <summary>
+    /// Retorna 201 Created com Location via rota nomeada.
+    /// </summary>
     protected IActionResult CreatedResponse<T>(string routeName, object routeValues, T data)
     {
         if (_notifier.HasNotifies())
-            return CustomResponse<T>(data);
+            return StatusCode(StatusCodes.Status400BadRequest, Fail(_notifier.GetNotifications()));
 
-        var body = Success(data!);
-        return CreatedAtRoute(routeName, routeValues, body);
+        return CreatedAtRoute(routeName, routeValues, Success(data!));
     }
 
     private static SuccessResponseView Success(object data) => new(data);
-
     private static ErrorResponseView Fail(IReadOnlyList<string> errors) => new(errors);
 }

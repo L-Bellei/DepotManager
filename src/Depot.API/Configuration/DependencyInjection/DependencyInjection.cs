@@ -13,5 +13,7 @@ public static class DependencyInjection
             opt.UseNpgsql(conn, npgsql => npgsql.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery))
             .UseSnakeCaseNamingConvention()
         );
+
+        services.AddSingleton(configuration);
     }
 }
